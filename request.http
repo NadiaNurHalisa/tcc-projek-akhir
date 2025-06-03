@@ -1,0 +1,216 @@
+@host = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ4OTY3MDI2LCJleHAiOjE3NDg5NzA2MjZ9.qPeoXVBy385WyoQ_YQ48Q1GITP4ZEUjmouLmpBO8Qx8
+
+### Register a new user
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123",
+  "email": "test@example.com"
+}
+
+### Login to get JWT token
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+
+### Register a new admin
+POST {{host}}/auth/register-admin
+Content-Type: application/json
+
+{
+  "username": "adminuser",
+  "password": "admin123",
+  "email": "admin@example.com",
+  "no_hp": "1234567890"
+}
+
+### Login admin to get JWT token
+POST {{host}}/auth/login-admin
+Content-Type: application/json
+
+{
+  "username": "adminuser",
+  "password": "admin123"
+}
+
+### Get all rooms - Requires JWT token
+GET {{host}}/rooms
+Authorization: Bearer {{token}}
+
+### Create a new room - Requires JWT token and admin role
+POST {{host}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Deluxe Room",
+  "description": "A luxurious room with a view.",
+  "price": 1000000,
+  "capacity": 2,
+  "facilities": "['AC', 'WiFi', 'TV', 'Bathroom']",
+  "status": "available",
+  "image_url": "https://example.com/deluxe.jpg"
+}
+
+### Get bookings for a user - Requires JWT token
+GET {{host}}/bookings
+Authorization: Bearer {{token}}
+
+### Users - Create
+POST {{host}}/users
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "newuser",
+  "password": "password",
+  "email": "newuser@example.com",
+  "no_hp": "1234567890",
+  "role": "user"
+}
+
+### Users - Read All
+GET {{host}}/users
+Authorization: Bearer {{token}}
+
+### Users - Read One
+GET {{host}}/users/1
+Authorization: Bearer {{token}}
+
+### Users - Update
+PUT {{host}}/users/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "updateduser",
+  "email": "updated@example.com"
+}
+
+### Users - Delete
+DELETE {{host}}/users/1
+Authorization: Bearer {{token}}
+
+### Rooms - Create
+POST {{host}}/rooms
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Superior Room",
+  "description": "A comfortable room.",
+  "price": 750000,
+  "capacity": 2,
+  "facilities": "['AC', 'WiFi']",
+  "status": "available",
+  "image_url": "https://example.com/superior.jpg"
+}
+
+### Rooms - Read All
+GET {{host}}/rooms
+
+### Rooms - Read One
+GET {{host}}/rooms/1
+
+### Rooms - Update
+PUT {{host}}/rooms/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "price": 800000,
+  "status": "occupied"
+}
+
+### Rooms - Delete
+DELETE {{host}}/rooms/1
+Authorization: Bearer {{token}}
+
+### Bookings - Create
+POST {{host}}/bookings
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": 1,
+  "room_id": 1,
+  "start_date": "2024-01-15",
+  "end_date": "2024-01-20",
+  "status": "pending",
+  "total_price": 4000000,
+  "notes": "Late arrival"
+}
+
+### Bookings - Read All
+GET {{host}}/bookings
+Authorization: Bearer {{token}}
+
+### Bookings - Read One
+GET {{host}}/bookings/1
+Authorization: Bearer {{token}}
+
+### Bookings - Update
+PUT {{host}}/bookings/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "confirmed"
+}
+
+### Bookings - Delete
+DELETE {{host}}/bookings/1
+Authorization: Bearer {{token}}
+
+### Bookings - Get by User ID (Current User's Bookings)
+GET {{host}}/bookings/user/4
+Authorization: Bearer {{token}}
+
+### Bookings - Get by Room ID (Admin only)
+GET {{host}}/bookings/room/1
+Authorization: Bearer {{token}}
+
+### Bookings - Get by Date Range (Admin only)
+GET {{host}}/bookings/date-range?startDate=2024-01-01&endDate=2024-01-31
+Authorization: Bearer {{token}}
+
+### Auth - Logout (if implemented)
+POST {{host}}/auth/logout
+Authorization: Bearer {{token}}
+
+### Users - Get Profile (if implemented)
+GET {{host}}/users/profile
+Authorization: Bearer {{token}}
+
+### Users - Update Profile (if implemented)
+PUT {{host}}/users/profile
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "updateduser",
+  "email": "updated@example.com",
+  "fullName": "Updated User Name",
+  "phone": "1234567890"
+}
+
+### Users - Change Password (if implemented)
+PUT {{host}}/users/change-password
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "currentPassword": "oldpassword",
+  "newPassword": "newpassword123"
+}
+
+### Rooms - Get Available Rooms (if implemented)
+GET {{host}}/rooms/available
+Authorization: Bearer {{token}}

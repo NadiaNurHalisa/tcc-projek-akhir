@@ -1,0 +1,28 @@
+steps:
+  # Langkah 1: Build Docker image dari Dockerfile
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/$TRIGGER_NAME:$_GIT_COMMIT", "."]
+    dir: "backend" # Pastikan path sesuai struktur proyek
+
+  # Langkah 2: Push image ke Google Container Registry (GCR)
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/$TRIGGER_NAME:$_GIT_COMMIT"]
+
+  # Langkah 3: Deploy ke App Engine Flex
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    args:
+      - "gcloud"
+      - "app"
+      - "deploy"
+      - "app.yaml"
+      - "--timeout"
+      - "3000s"
+      - "--region"
+      - "us-central1"
+      - "--image-url=gcr.io/$PROJECT_ID/$TRIGGER_NAME:$_GIT_COMMIT"
+      - "--project=$PROJECT_ID"
+      - "--allow-unauthenticated"
+    dir: "backend" # Path ke folder backend
+
+options:
+  logging: CLOUD_LOGGING_ONLY

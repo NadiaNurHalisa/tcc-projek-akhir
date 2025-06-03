@@ -1,0 +1,11 @@
+runtime: nodejs20 
+service: default  
+
+env_variables:
+  NODE_ENV: production
+  PORT: 8080  
+  DB_NAME: kos_db
+  DB_USER: root
+  DB_PASS: ""
+  DB_HOST: 34.30.191.151
+  JWT_SECRET: kunci_jwt
