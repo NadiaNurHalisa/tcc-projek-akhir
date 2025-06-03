@@ -1,31 +1,22 @@
 steps:
-  # Build the Docker image from frontend directory
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/$TRIGGER_NAME', './frontend']
-  
-  # Push the image to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/$TRIGGER_NAME']
-  
-  # Deploy to Cloud Run
+  # Install dependencies using Node.js container
+  - name: 'node:18-alpine'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cd backend
+        npm install --production
+        
+        
+  # Deploy to App Engine using Cloud SDK
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args: 
-      - 'run'
-      - 'deploy'
-      - '$TRIGGER_NAME'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME'
-      - '--platform'
-      - 'managed'
-      - '--region'
-      - 'us-central1'
-      - '--allow-unauthenticated'
-      - '--port'
-      - '80'
-images:
-  - 'gcr.io/$PROJECT_ID/$TRIGGER_NAME'
-
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cd backend
+        gcloud app deploy app.yaml --project=$PROJECT_ID --quiet
 
 options:
   logging: CLOUD_LOGGING_ONLY
