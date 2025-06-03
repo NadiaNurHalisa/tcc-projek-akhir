@@ -1,4 +1,4 @@
-@host = http://localhost:3000
+@host = https://tugas-tekweb.uc.r.appspot.com
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ4OTY3MDI2LCJleHAiOjE3NDg5NzA2MjZ9.qPeoXVBy385WyoQ_YQ48Q1GITP4ZEUjmouLmpBO8Qx8
 
 ### Register a new user

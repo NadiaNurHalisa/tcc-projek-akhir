@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-define('API_BASE_URL', 'http://localhost:3000');
+define('API_BASE_URL', 'https://tugas-tekweb.uc.r.appspot.com');
 
 function makeApiCall($endpoint, $method = 'GET', $data = null, $token = null) {
     $url = API_BASE_URL . $endpoint;
